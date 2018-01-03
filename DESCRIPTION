@@ -1,9 +1,11 @@
 Package: GT.Tools
-Title: What the Package Does (one line, title case)
-Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Title: A Package for Generating and Displaying Normal Form Games
+Version: 0.1
+Authors@R: person("Richard", "Faltings", email = "richard.faltings@student.unisg.ch", role = c("aut", "cre"))
+Description: This packages introduces a new S3 class called “Games” as well as a number of functions for both generating games to demonstrate solution concepts (dominant strategies, IESDS, Nash equilibrium and mixed strategies).
 Depends: R (>= 3.3.1)
-License: What license is it under?
+Imports: MASS, methods
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 6.0.1
