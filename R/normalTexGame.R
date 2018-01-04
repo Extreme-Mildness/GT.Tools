@@ -118,7 +118,7 @@ function(game, showOutput = TRUE, showNash = FALSE, showSol = FALSE, fileOut = F
     close(fileConn)
 
     if(showSol){
-      fileConn<-file(paste("game_", substitute(game), nashInd, "_sol.tex", sep = ""))
+      fileConn<-file(paste("game_", substitute(game), "_sol.tex", sep = ""))
       writeLines(solText, fileConn)
       close(fileConn)
     }
