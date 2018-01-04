@@ -5,7 +5,7 @@
 \title{TeX output of a game}
 \usage{
 normalTexGame(game, showOutput = TRUE, showNash = FALSE, showSol = FALSE,
-  fileOut = FALSE)
+  fileOut = FALSE, tableEnv = T)
 }
 \arguments{
 \item{game}{An object of class "Game"}
@@ -16,7 +16,9 @@ normalTexGame(game, showOutput = TRUE, showNash = FALSE, showSol = FALSE,
 
 \item{showSol}{A boolean to output the solution text. Defaults to \code{FALSE}.}
 
-\item{fileOut}{A boolean to write directly to a TeX file. Defaults to \code{FALSE}.}
+\item{fileOut}{A boolean to write directly to a TeX file. Defaults to \code{FALSE}. If \code{showSol} is \code{TRUE}, the solution is outputted to a separate file.}
+
+\item{tableEnv}{A boolean to include the output in a \code{table} environment.}
 }
 \value{
 A character vector with each cell being one line of the TeX code which can be outputted
@@ -26,7 +28,9 @@ with \code{writeLines()}. By default, the output is printed directly to the cons
 Creates a normal form representation of a game and exports it
 in LaTeX format. Can also display pure strategy Nash equilibria
 as well as solutions adapted to each type of game. By default, exports
-to console, but can also write to a TeX file.
+to console, but can also write to a TeX file to be included in a larger document.
+Make sure to include \code{\\usepackage{multirow}} and \code{\\usepackage{graphicx}}
+in the preamble of the TeX document.
 }
 \examples{
 example_game <- nashGame(4,3,0,30)

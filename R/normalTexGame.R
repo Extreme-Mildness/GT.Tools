@@ -3,13 +3,16 @@
 #' Creates a normal form representation of a game and exports it
 #' in LaTeX format. Can also display pure strategy Nash equilibria
 #' as well as solutions adapted to each type of game. By default, exports
-#' to console, but can also write to a TeX file.
+#' to console, but can also write to a TeX file to be included in a larger document.
+#' Make sure to include \code{\\usepackage{multirow}} and \code{\\usepackage{graphicx}}
+#' in the preamble of the TeX document.
 #'
 #' @param game An object of class "Game"
 #' @param showOutput A boolean to output the text to console. Overridden by \code{fileOut}. Defaults to \code{TRUE}.
 #' @param showNash A boolean to switch on underlining of pure strategy Nash equilibria. Defaults to \code{FALSE}.
 #' @param showSol A boolean to output the solution text. Defaults to \code{FALSE}.
-#' @param fileOut A boolean to write directly to a TeX file. Defaults to \code{FALSE}.
+#' @param fileOut A boolean to write directly to a TeX file. Defaults to \code{FALSE}. If \code{showSol} is \code{TRUE}, the solution is outputted to a separate file.
+#' @param tableEnv A boolean to include the output in a \code{table} environment.
 #' @return A character vector with each cell being one line of the TeX code which can be outputted
 #' with \code{writeLines()}. By default, the output is printed directly to the console.
 #'
@@ -21,7 +24,7 @@
 #' @export
 
 normalTexGame <-
-function(game, showOutput = TRUE, showNash = FALSE, showSol = FALSE, fileOut = FALSE){
+function(game, showOutput = TRUE, showNash = FALSE, showSol = FALSE, fileOut = FALSE, tableEnv = T){
   A <- as.character(MASS::fractions(game@payoff.A))
   B <- as.character(MASS::fractions(game@payoff.B))
 
@@ -38,8 +41,11 @@ function(game, showOutput = TRUE, showNash = FALSE, showSol = FALSE, fileOut = F
   }
 
   # Begin the table
-  begin <- c("\\begin{table}[!htbp]", "\\centering")
-  begin[3] <- paste("\\begin{tabular}{", paste(rep("c",N*2+2),collapse=""),"}", sep="")
+  begin <- "\\centering"
+  if(tableEnv){
+    begin <- c("\\begin{table}[!htbp]", begin)
+  }
+  begin <- c(begin, paste("\\begin{tabular}{", paste(rep("c",N*2+2),collapse=""),"}", sep=""))
 
   # Label for B and strategies
   labelB <- paste("& & \\multicolumn{",N*2,"}{c}{Player B} \\\\", sep = "")
@@ -59,9 +65,13 @@ function(game, showOutput = TRUE, showNash = FALSE, showSol = FALSE, fileOut = F
   payoffs[1] <- paste("\\multirow{", M*2,"}{*}{\\rotatebox[origin=c]{90}{Player A}} ", payoffs[1], sep="")
 
   # End the table
-  end <- c("\\end{tabular}","\\end{table}")
+  end <- "\\end{tabular}"
+  if(tableEnv){
+    end <- c(end,"\\end{table}")
+  }
 
   # Solutions
+  solText <- ""
   if(showSol){
     solText <- "\\textit{\\Large Solution:} \\\\"
 
@@ -90,20 +100,31 @@ function(game, showOutput = TRUE, showNash = FALSE, showSol = FALSE, fileOut = F
       solText[2] <- paste("A possible mixed strategy of player A is $\\{", paste(sol.A, sep="", collapse = ", "), "\\}$. \\\\")
       solText[3] <- paste("A possible mixed strategy of player B is $\\{", paste(sol.B, sep="", collapse = ", "), "\\}$. \\\\")
     }
-
-    end <- c(end, solText)
   }
 
 
   fullTex <- c(begin, labelB, payoffs, end)
 
+  # Output to TeX file
   if(fileOut){
-    fileConn<-file(paste("game_", substitute(game), ".tex", sep = ""))
+    if(showNash){
+      nashInd <- "_showNash"
+    } else {
+      nashInd <- ""
+    }
+
+    fileConn<-file(paste("game_", substitute(game), nashInd, ".tex", sep = ""))
     writeLines(fullTex, fileConn)
     close(fileConn)
+
+    if(showSol){
+      fileConn<-file(paste("game_", substitute(game), nashInd, "_sol.tex", sep = ""))
+      writeLines(solText, fileConn)
+      close(fileConn)
+    }
   } else if(showOutput) {
-    writeLines(fullTex)
+    writeLines(c(fullTex,solText))
   } else {
-    return(fullTex)
+    return(c(fullTex,solText))
   }
 }
