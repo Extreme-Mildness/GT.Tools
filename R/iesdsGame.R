@@ -32,8 +32,8 @@ function(M,N,min,max,maxdiff){
     if(1-rowcol){
       sol[nrow(sol)+1,1] <- "A"
       upper <- apply(A,2,max)
-      newA <- upper-sample(1:maxdiff,currN)
-      newB <- sample(min:max,currN)
+      newA <- upper-sample(1:maxdiff,currN, replace = T)
+      newB <- sample(min:max,currN, replace = T)
       if(sample(0:1,1)){
         A <- rbind(A,newA)
         B <- rbind(B,newB)
@@ -51,8 +51,8 @@ function(M,N,min,max,maxdiff){
     if(rowcol){
       sol[nrow(sol)+1,1] <- "B"
       upper <- apply(B,1,max)
-      newB <- upper-sample(1:maxdiff,currM)
-      newA <- sample(min:max,currM)
+      newB <- upper-sample(1:maxdiff,currM, replace = T)
+      newA <- sample(min:max,currM, replace = T)
       if(sample(0:1,1)){
         A <- cbind(A,newA)
         B <- cbind(B,newB)
