@@ -80,7 +80,7 @@ function(game, showOutput = TRUE, showNash = FALSE, showSol = FALSE, fileOut = F
       if(nrow(sol)>1){
         solText[2] <- paste("The pure Nash equilibria are ",paste("$(",sol[,1],", ", sol[,2],")$", sep = "", collapse = ", "),".")
       } else {
-        solText[2] <- paste("The pure Nash equilibria are ",paste("$(",sol[,1],", ", sol[,2],")$", sep = "", collapse = ", "),".")
+        solText[2] <- paste("The pure Nash equilibrium is ",paste("$(",sol[,1],", ", sol[,2],")$", sep = "", collapse = ", "),".")
       }
     }
 
