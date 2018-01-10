@@ -16,7 +16,7 @@ normalGame2 <-
   function(game){
     A <- MASS::fractions(game@payoff.A)
     B <- MASS::fractions(game@payoff.B)
-    normal <- matrix(paste(A, B, sep = ","),
+    normal <- matrix(paste(A, B, sep = ", "),
                         game@M, game@N)
     colnames(normal) <- 1:game@N
 
