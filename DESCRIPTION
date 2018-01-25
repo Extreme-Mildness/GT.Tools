@@ -5,7 +5,7 @@ Authors@R: person("Richard", "Faltings", email = "richard.faltings@student.unisg
 Description: This packages introduces a new S3 class called “Games” as well as a number of functions for both generating games to demonstrate solution concepts (dominant strategies, IESDS, Nash equilibrium and mixed strategies).
 Depends: R (>= 3.3.1)
 Imports: MASS, methods
-License: GPL-3
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
