@@ -31,7 +31,8 @@ function(M,N,min,max,maxdiff){
     # add a row
     if(1-rowcol){
       sol[nrow(sol)+1,1] <- "A"
-      upper <- apply(A,2,max)
+      refRow <- sample(1:currM, 1)
+      upper <- A[refRow,]
       newA <- upper-sample(1:maxdiff,currN, replace = T)
       newB <- sample(min:max,currN, replace = T)
       if(sample(0:1,1)){
@@ -50,7 +51,8 @@ function(M,N,min,max,maxdiff){
     # add a column
     if(rowcol){
       sol[nrow(sol)+1,1] <- "B"
-      upper <- apply(B,1,max)
+      refCol <- sample(1:currN, 1)
+      upper <- B[,refCol]
       newB <- upper-sample(1:maxdiff,currM, replace = T)
       newA <- sample(min:max,currM, replace = T)
       if(sample(0:1,1)){
